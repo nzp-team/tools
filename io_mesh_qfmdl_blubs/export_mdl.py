@@ -247,8 +247,11 @@ def get_properties(
             effects,
             xform,
             md16,
+            mdl_first_frame,
+            mdl_last_frame,
             mdl_scale_mins,
-            mdl_scale_maxs):
+            mdl_scale_maxs,
+            mdl_draw_bbox,):
     mdl.palette = MDL.PALETTE[palette]
     mdl.eyeposition = eyeposition
     mdl.synctype = MDL.SYNCTYPE[synctype]
@@ -357,8 +360,11 @@ def export_mdl(
     effects = EFFECTS[1],
     xform = True,
     md16 = False,
+    mdl_first_frame=0,
+    mdl_last_frame=10,
     mdl_scale_mins=(-100,-100,-100),
     mdl_scale_maxs=(100,100,100),
+    mdl_draw_bbox=False,
     ):
 
     obj = context.active_object
@@ -382,8 +388,11 @@ def export_mdl(
             effects,
             xform,
             md16,
+            mdl_first_frame,
+            mdl_last_frame,
             mdl_scale_mins,
-            mdl_scale_maxs):
+            mdl_scale_maxs,
+            mdl_draw_bbox,):
                 return {'CANCELLED'}
 
     mdl.tris, mdl.stverts, vertmap = build_tris(mesh)
@@ -401,7 +410,8 @@ def export_mdl(
         # Export up to the last scene frame:
         # for fno in range(context.scene.frame_start, context.scene.frame_end + 1):
         # Only export up to current frame:
-        for fno in range(context.scene.frame_start, context.scene.frame_current + 1):
+        # for fno in range(context.scene.frame_start, context.scene.frame_current + 1):
+        for fno in range(mdl_first_frame, mdl_last_frame + 1):
             context.scene.frame_set(fno)
             obj.update_from_editmode()
             depsgraph = context.evaluated_depsgraph_get()
