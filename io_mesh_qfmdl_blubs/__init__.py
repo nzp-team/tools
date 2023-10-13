@@ -179,6 +179,11 @@ class QFMDLSettings(bpy.types.PropertyGroup):
         items=EFFECTS,
         name="Effects",
         description="Particle trail effects")
+    custom_flags : StringProperty(
+        name="Flags",
+        description="Int representing effect bitflags to write. If specified, Effects / Rotate flag values are ignored.",
+        default=""
+    )
 
     #doesn't work :(
     #script = PointerProperty(
@@ -283,6 +288,11 @@ class ExportMDL6(bpy.types.Operator, ExportHelper):
         items=EFFECTS,
         name="Effects",
         description="Particle trail effects")
+    custom_flags : StringProperty(
+        name="Flags",
+        description="Int representing effect bitflags to write. If specified, Effects / Rotate flag values are ignored.",
+        default=""
+    )
     xform : BoolProperty(
         name="Auto transform",
         description="Auto-apply location/rotation/scale when exporting",
@@ -362,6 +372,7 @@ class OBJECT_PT_MDLPanel(bpy.types.Panel):
         layout.prop(obj.qfmdl, "synctype")
         layout.prop(obj.qfmdl, "rotate")
         layout.prop(obj.qfmdl, "effects")
+        layout.prop(obj.qfmdl, "custom_flags")
         # layout.prop(obj.qfmdl, "script")
         layout.prop(obj.qfmdl, "xform")
         layout.prop(obj.qfmdl, "md16")

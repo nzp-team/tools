@@ -245,6 +245,7 @@ def get_properties(
             synctype,
             rotate,
             effects,
+            custom_flags,
             xform,
             md16,
             mdl_first_frame,
@@ -257,6 +258,15 @@ def get_properties(
     mdl.synctype = MDL.SYNCTYPE[synctype]
     mdl.flags = ((rotate and MDL.EF_ROTATE or 0)
                  | MDL.EFFECTS[effects])
+    
+    # If custom_flags specified, try parsing as int
+    # If int is successfully parsed, replace flags / effects with it.
+    try:
+        custom_flags = int(custom_flags)
+        mdl.flags = custom_flags
+    except:
+        pass
+
     if md16:
         mdl.ident = "MD16"
 
@@ -358,6 +368,7 @@ def export_mdl(
     synctype = SYNCTYPE[1],
     rotate = False,
     effects = EFFECTS[1],
+    custom_flags='',
     xform = True,
     md16 = False,
     mdl_first_frame=0,
@@ -386,6 +397,7 @@ def export_mdl(
             synctype,
             rotate,
             effects,
+            custom_flags,
             xform,
             md16,
             mdl_first_frame,
